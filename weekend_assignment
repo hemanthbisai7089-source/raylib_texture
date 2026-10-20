@@ -50,33 +50,34 @@ function draw(world) {
   const noOfRows = 10;
   const noOfCols = 10;
 
-  for (let row = 0; row < noOfRows; row += 2) {
+  for (let row = 0; row < noOfRows; row++) {
     const y = row * world.targetHeight;
 
-    for (let col = 0; col < noOfCols; col += 2) {
+    for (let col = 0; col < noOfCols; col++) {
       const x = col * world.targetWidth;
       const TextureNumber = row * noOfCols + col;
-      console.log(TextureNumber);
 
-      r.DrawTextureRec(world.target1.texture, source, { x, y }, r.WHITE);
-      r.DrawTextureRec(
-        world.target2.texture,
-        source,
-        { x: x, y: y + world.targetHeight },
-        r.WHITE,
-      );
-      r.DrawTextureRec(
-        world.target1.texture,
-        source,
-        { x: x + world.targetWidth, y },
-        r.WHITE,
-      );
-      r.DrawTextureRec(
-        world.target2.texture,
-        source,
-        { x: x + world.targetWidth, y: y + world.targetHeight },
-        r.WHITE,
-      );
+      if (TextureNumber % 2 === 0)
+        r.DrawTextureRec(world.target1.texture, source, { x, y }, r.WHITE);
+      else
+        r.DrawTextureRec(
+          world.target2.texture,
+          source,
+          { x: x, y: y },
+          r.WHITE,
+        );
+      // r.DrawTextureRec(
+      //   world.target1.texture,
+      //   source,
+      //   { x: x + world.targetWidth, y },
+      //   r.WHITE,
+      // );
+      // r.DrawTextureRec(
+      //   world.target2.texture,
+      //   source,
+      //   { x: x + world.targetWidth, y: y + world.targetHeight },
+      //   r.WHITE,
+      // );
     }
   }
   r.EndDrawing();

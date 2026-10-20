@@ -2,14 +2,38 @@ const r = require("raylib");
 function update(world) {}
 
 function draw(world) {
-  r.BeginTextureMode(world.target);
-  r.ClearBackground(r.WHITE);
+  r.BeginTextureMode(world.target1);
+  r.ClearBackground(r.BLACK);
+
+  r.DrawTriangle(
+    { x: world.targetWidth, y: world.targetHeight },
+    { x: world.targetWidth, y: 0 },
+    { x: 0, y: world.targetHeight },
+    r.WHITE,
+  );
+  r.DrawTriangle(
+    { x: world.targetWidth, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: world.targetHeight },
+    r.BLUE,
+  );
+
+  r.EndTextureMode();
+
+  r.BeginTextureMode(world.target2);
+  r.ClearBackground(r.BLACK);
 
   r.DrawTriangle(
     { x: 0, y: world.targetHeight },
     { x: world.targetWidth, y: world.targetHeight },
     { x: world.targetWidth, y: 0 },
     r.BLUE,
+  );
+  r.DrawTriangle(
+    { x: 0, y: 0 },
+    { x: 0, y: world.targetHeight },
+    { x: world.targetWidth, y: 0 },
+    r.WHITE,
   );
 
   r.EndTextureMode();
@@ -25,21 +49,28 @@ function draw(world) {
 
   const noOfRows = 10;
   const noOfCols = 10;
-  for (let row = 0; row < noOfRows; row++) {
+  for (let row = 0; row < noOfRows; row += 2) {
     const y = row * world.targetHeight;
 
     for (let col = 0; col < noOfCols; col++) {
       const x = col * world.targetWidth;
-      r.DrawTextureRec(world.target.texture, source, { x, y }, r.WHITE);
-      drawCanvas(world, source, col, y);
+
+      r.DrawTextureRec(world.target1.texture, source, { x, y }, r.WHITE);
+      r.DrawTextureRec(
+        world.target2.texture,
+        source,
+        { x: x, y: y + world.targetHeight },
+        r.WHITE,
+      );
     }
   }
   r.EndDrawing();
 }
+// const
 
 function drawCanvas(world, source, col, y) {
   r.DrawTextureRec(
-    world.target.texture,
+    world.target2.texture,
     source,
     { x: (col + 10) * world.targetWidth, y },
     r.WHITE,
@@ -68,9 +99,20 @@ function setup() {
   r.SetTraceLogLevel(r.LOG_NONE);
   r.InitWindow(WIDTH, HEIGHT, TITLE);
   r.SetTargetFPS(FPS);
-  const target = r.LoadRenderTexture(targetWidth, targetHeight);
+  const target1 = r.LoadRenderTexture(targetWidth, targetHeight);
+  const target2 = r.LoadRenderTexture(targetWidth, targetHeight);
 
-  return { WIDTH, HEIGHT, TITLE, FPS, bg, target, targetHeight, targetWidth };
+  return {
+    WIDTH,
+    HEIGHT,
+    TITLE,
+    FPS,
+    bg,
+    target1,
+    target2,
+    targetHeight,
+    targetWidth,
+  };
 }
 
 function main() {

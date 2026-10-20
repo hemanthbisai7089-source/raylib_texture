@@ -56,12 +56,20 @@ function draw(world) {
       const x = col * world.targetWidth;
 
       r.DrawTextureRec(world.target1.texture, source, { x, y }, r.WHITE);
-      r.DrawTextureRec(
-        world.target2.texture,
-        source,
-        { x: x, y: y + world.targetHeight },
-        r.WHITE,
-      );
+      if (col % 2 === 0)
+        r.DrawTextureRec(
+          world.target1.texture,
+          source,
+          { x: x, y: y + world.targetHeight },
+          r.WHITE,
+        );
+      else
+        r.DrawTextureRec(
+          world.target2.texture,
+          source,
+          { x: x, y: y + world.targetHeight },
+          r.WHITE,
+        );
     }
   }
   r.EndDrawing();

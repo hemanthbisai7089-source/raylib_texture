@@ -23,16 +23,27 @@ function draw(world) {
     height: world.targetHeight,
   };
 
-  for (let row = 0; row < 10; row++) {
+  const noOfRows = 10;
+  const noOfCols = 10;
+  for (let row = 0; row < noOfRows; row++) {
     const y = row * world.targetHeight;
 
-    for (let col = 0; col < 10; col++) {
+    for (let col = 0; col < noOfCols; col++) {
       const x = col * world.targetWidth;
       r.DrawTextureRec(world.target.texture, source, { x, y }, r.WHITE);
-      r.DrawTextureRec(world.target.texture, source, { x: x * 10, y }, r.WHITE);
+      drawCanvas(world, source, col, y);
     }
   }
   r.EndDrawing();
+}
+
+function drawCanvas(world, source, col, y) {
+  r.DrawTextureRec(
+    world.target.texture,
+    source,
+    { x: (col + 10) * world.targetWidth, y },
+    r.WHITE,
+  );
 }
 
 function loop(world) {

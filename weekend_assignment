@@ -29,6 +29,7 @@ function draw(world) {
     for (let col = 0; col < 10; col++) {
       const x = col * world.targetWidth;
       r.DrawTextureRec(world.target.texture, source, { x, y }, r.WHITE);
+      r.DrawTextureRec(world.target.texture, source, { x: x * 10, y }, r.WHITE);
     }
   }
   r.EndDrawing();

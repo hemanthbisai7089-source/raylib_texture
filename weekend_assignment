@@ -50,47 +50,57 @@ function draw(world) {
   const noOfRows = 10;
   const noOfCols = 10;
 
+  drawCanvas(noOfRows, world, noOfCols, source);
+  r.EndDrawing();
+}
+function textureCalculation(row, col, number) {
+  switch (number) {
+    case 0:
+      return row; // 1st pattern
+    case 1:
+      return col; // 2nd pattern
+    case 2:
+      return col + row; // 3rd pattern
+    case 3:
+      return (col + row) % 3; // 4th pattern
+    case 4:
+      return row * col; // 5th pattern
+    case 5:
+      return (col * row) % 3; // 6th pattern
+    case 6:
+      return Math.max(row, col); // 7th pattern
+    case 7:
+      return Math.min(row, col); // 8th pattern
+    case 8:
+      return row > col; // 9th pattern
+  }
+}
+
+function drawCanvas(noOfRows, world, noOfCols, source, TextureNumber) {
   for (let row = 0; row < noOfRows; row++) {
     const y = row * world.targetHeight;
 
     for (let col = 0; col < noOfCols; col++) {
       const x = col * world.targetWidth;
-      const TextureNumber = row * noOfCols + col;
-
-      if (TextureNumber % 2 === 0)
-        r.DrawTextureRec(world.target1.texture, source, { x, y }, r.WHITE);
-      else
-        r.DrawTextureRec(
-          world.target2.texture,
-          source,
-          { x: x, y: y },
-          r.WHITE,
-        );
-      // r.DrawTextureRec(
-      //   world.target1.texture,
-      //   source,
-      //   { x: x + world.targetWidth, y },
-      //   r.WHITE,
-      // );
-      // r.DrawTextureRec(
-      //   world.target2.texture,
-      //   source,
-      //   { x: x + world.targetWidth, y: y + world.targetHeight },
-      //   r.WHITE,
-      // );
+      // const TextureNumber = row; // 1st pattern
+      // const TextureNumber = col; // 2nd pattern
+      // const TextureNumber = col + row; // 3rd pattern
+      // const TextureNumber = (col + row) % 3; // 4th pattern
+      // const TextureNumber = row * col; // 5th pattern
+      // const TextureNumber = (col * row) % 3; // 6th pattern
+      // const TextureNumber = Math.max(row, col); // 7th pattern
+      // const TextureNumber = Math.min(row, col); // 8th pattern
+      // const TextureNumber = row > col; // 9th pattern
+      const TextureNumber = textureCalculation(row, col);
+      drawTexture(world, source, x, y, number);
     }
   }
-  r.EndDrawing();
 }
-// const
 
-function drawCanvas(world, source, col, y) {
-  r.DrawTextureRec(
-    world.target2.texture,
-    source,
-    { x: (col + 10) * world.targetWidth, y },
-    r.WHITE,
-  );
+function drawTexture(world, source, x, y, TextureNumber) {
+  if (TextureNumber % 2 === 0)
+    r.DrawTextureRec(world.target1.texture, source, { x, y }, r.WHITE);
+  else r.DrawTextureRec(world.target2.texture, source, { x: x, y: y }, r.WHITE);
 }
 
 function loop(world) {
@@ -104,13 +114,13 @@ function teardown() {
 }
 function setup() {
   const TITLE = "intro";
-  const WIDTH = 650;
-  const HEIGHT = 300;
+  const WIDTH = 600;
+  const HEIGHT = 600;
   const FPS = 60;
   const bg = r.BLACK;
 
-  const targetHeight = 10;
-  const targetWidth = 10;
+  const targetHeight = 40;
+  const targetWidth = 40;
 
   r.SetTraceLogLevel(r.LOG_NONE);
   r.InitWindow(WIDTH, HEIGHT, TITLE);
@@ -118,17 +128,7 @@ function setup() {
   const target1 = r.LoadRenderTexture(targetWidth, targetHeight);
   const target2 = r.LoadRenderTexture(targetWidth, targetHeight);
 
-  return {
-    WIDTH,
-    HEIGHT,
-    TITLE,
-    FPS,
-    bg,
-    target1,
-    target2,
-    targetHeight,
-    targetWidth,
-  };
+  return { bg, target1, target2, targetHeight, targetWidth };
 }
 
 function main() {

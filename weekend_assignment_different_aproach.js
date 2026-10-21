@@ -25,14 +25,14 @@ function draw(world) {
     height: world.targetHeight * 10,
   };
 
-  for (let row = 0; row < 1; row++) {
-    const y = row * world.targetHeight;
+  // for (let row = 0; row < 1; row++) {
+  //   const y = row * world.targetHeight;
 
-    for (let col = 0; col < 1; col++) {
-      const x = col * world.targetWidth;
-      r.DrawTextureRec(world.target.texture, source, { x: 0, y: 0 }, r.WHITE);
-    }
-  }
+  //   for (let col = 0; col < 1; col++) {
+  //     const x = col * world.targetWidth;
+  r.DrawTextureRec(world.target.texture, source, { x: 0, y: 0 }, r.WHITE);
+  // }
+  // }
   r.EndDrawing();
 }
 

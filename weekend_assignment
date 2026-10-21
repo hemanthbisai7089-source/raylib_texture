@@ -49,8 +49,9 @@ function draw(world) {
 
   const noOfRows = 10;
   const noOfCols = 10;
-
-  drawCanvas(noOfRows, world, noOfCols, source);
+  for (let index = 0; index < 9; index++) {
+    drawCanvas(noOfRows, world, noOfCols, source);
+  }
   r.EndDrawing();
 }
 function textureCalculation(row, col, number) {
@@ -81,24 +82,14 @@ function drawCanvas(noOfRows, world, noOfCols, source, TextureNumber) {
     const y = row * world.targetHeight;
 
     for (let col = 0; col < noOfCols; col++) {
-      const x = col * world.targetWidth;
-      // const TextureNumber = row; // 1st pattern
-      // const TextureNumber = col; // 2nd pattern
-      // const TextureNumber = col + row; // 3rd pattern
-      // const TextureNumber = (col + row) % 3; // 4th pattern
-      // const TextureNumber = row * col; // 5th pattern
-      // const TextureNumber = (col * row) % 3; // 6th pattern
-      // const TextureNumber = Math.max(row, col); // 7th pattern
-      // const TextureNumber = Math.min(row, col); // 8th pattern
-      // const TextureNumber = row > col; // 9th pattern
-      const TextureNumber = textureCalculation(row, col);
-      drawTexture(world, source, x, y, number);
+      const value = textureCalculation(row, col, TextureNumber);
+      drawTexture(world, source, x, y, value);
     }
   }
 }
 
-function drawTexture(world, source, x, y, TextureNumber) {
-  if (TextureNumber % 2 === 0)
+function drawTexture(world, source, x, y, value) {
+  if (value % 2 === 0)
     r.DrawTextureRec(world.target1.texture, source, { x, y }, r.WHITE);
   else r.DrawTextureRec(world.target2.texture, source, { x: x, y: y }, r.WHITE);
 }
